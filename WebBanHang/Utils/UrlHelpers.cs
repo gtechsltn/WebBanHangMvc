@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -9,7 +8,8 @@ namespace WebBanHang.Utils
 {
     public static class UrlHelpers
     {
-        public static String QueryString(this UrlHelper url,String key, String value) {
+        public static String QueryString(this UrlHelper url, String key, String value)
+        {
             String qString = HttpContext.Current.Request.QueryString.ToString();
             Dictionary<String, object> dict = new Dictionary<string, object>();
             HttpContext.Current.Request.QueryString.CopyTo(dict);

@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using WebBanHang.Models;
 
@@ -24,7 +23,7 @@ namespace WebBanHang.Areas.Admin.Controllers
             if (search == null) search = "";
             var colors = Repository.Create<Color>().FetchAll()
                 .Where(a => a.ColorName.ToLower().Contains(search))
-                .OrderByDescending(c=>c.ColorID);
+                .OrderByDescending(c => c.ColorID);
             List<object> data = new List<object>();
             foreach (var color in colors)
             {
@@ -40,7 +39,8 @@ namespace WebBanHang.Areas.Admin.Controllers
             }), "application/json");
         }
 
-        public ActionResult ColorInfo(int? id){
+        public ActionResult ColorInfo(int? id)
+        {
             dynamic result = new ExpandoObject();
             if (id == null)
             {
@@ -88,7 +88,8 @@ namespace WebBanHang.Areas.Admin.Controllers
             }
 
             var repo = Repository.Create<Color>();
-            if(repo.FetchAll().Any(c=>c.ColorName.ToLower().Equals(color.ColorName))){
+            if (repo.FetchAll().Any(c => c.ColorName.ToLower().Equals(color.ColorName)))
+            {
                 result.status = "error";
                 result.title = "Thêm thất bại";
                 result.message = "Tên màu này đã tồn tại trong hệ thống, vui lòng đặt lại tên khác";
@@ -149,7 +150,8 @@ namespace WebBanHang.Areas.Admin.Controllers
                 result.message = "Màu này này không tồn tại trong hệ thống";
                 return Content(JsonConvert.SerializeObject(result), "application/json");
             }
-            if(repo.FetchAll().Any(c => c.ColorID != color.ColorID && c.ColorName.ToLower().Equals(color.ColorName))){
+            if (repo.FetchAll().Any(c => c.ColorID != color.ColorID && c.ColorName.ToLower().Equals(color.ColorName)))
+            {
                 result.status = "error";
                 result.title = "Chỉnh sửa thất bại";
                 result.message = "Tên màu bị trùng với 1 màu đã tồn tại trong hệ thống, vui lòng đặt tên khác";
@@ -164,5 +166,5 @@ namespace WebBanHang.Areas.Admin.Controllers
             result.message = "Chúc mừng bạn đã thay đổi thành công màu";
             return Content(JsonConvert.SerializeObject(result), "application/json");
         }
-	}
+    }
 }

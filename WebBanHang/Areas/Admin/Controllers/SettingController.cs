@@ -1,8 +1,5 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using WebBanHang.Models;
 using WebBanHang.ViewModels;
@@ -27,16 +24,18 @@ namespace WebBanHang.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(AdminConfigViewModel model) { 
-            if(ModelState.IsValid){
-                Repository.Config.UpdateConfig("site_title",model.SiteTitle);
+        public ActionResult Edit(AdminConfigViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Repository.Config.UpdateConfig("site_title", model.SiteTitle);
                 Repository.Config.UpdateConfig("support_email", model.Email);
                 Repository.Config.UpdateConfig("support_phone", model.Phone);
                 Repository.Config.UpdateConfig("product_per_page", model.ProductPerPage.ToString());
                 Repository.Config.SaveChanges();
-                return RedirectToAction("Index","Setting");
+                return RedirectToAction("Index", "Setting");
             }
             return View(model);
         }
-	}
+    }
 }

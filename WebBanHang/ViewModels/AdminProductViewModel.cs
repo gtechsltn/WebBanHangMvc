@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using WebBanHang.Models;
 
@@ -12,14 +10,14 @@ namespace WebBanHang.ViewModels
     {
         public int ProductID { get; set; }
 
-        [Required(ErrorMessage="Vui lòng nhập tên sản phẩm")]
+        [Required(ErrorMessage = "Vui lòng nhập tên sản phẩm")]
         public String ProductName { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập tên nội dung sản phẩm")]
         [AllowHtml]
         public String Detail { get; set; }
 
-       [Required(ErrorMessage = "Vui lòng nhập giá sản phẩm")]
+        [Required(ErrorMessage = "Vui lòng nhập giá sản phẩm")]
         public long Price { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập giá giảm")]

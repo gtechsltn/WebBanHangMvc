@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
 using WebBanHang.Core;
 using WebBanHang.Core.RepositoryModel;
-using WebBanHang.Utils;
+
 namespace WebBanHang.Controllers
 {
     public class WidgetController : BaseController
@@ -23,20 +20,21 @@ namespace WebBanHang.Controllers
             return PartialView(menus);
         }
 
-        public ActionResult BestSellingProduct() {
+        public ActionResult BestSellingProduct()
+        {
             return View();
         }
 
-        public ActionResult LatestProduct() {
+        public ActionResult LatestProduct()
+        {
             var list = Repository.Product.GetNewProduct(9);
             return PartialView(list);
         }
 
         public ActionResult Search()
         {
-            
             var model = Repository.GroupProduct.GetTopGroupProducts();
             return PartialView(model);
         }
-	}
+    }
 }

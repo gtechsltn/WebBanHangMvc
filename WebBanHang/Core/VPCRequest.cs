@@ -1,31 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Data;
-using System.Configuration;
-using System.Web;
-using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
 using System.Security.Cryptography;
-using System.Net;
-using System.IO;
-
-
+using System.Text;
+using System.Web;
 
 namespace WebBanHang.Models
 {
     public class VPCRequest
     {
-        Uri _address;
-        SortedList<String, String> _requestFields = new SortedList<String, String>(new VPCStringComparer());
-        String _rawResponse;
-        SortedList<String, String> _responseFields = new SortedList<String, String>(new VPCStringComparer());
-        String _secureSecret;
-
+        private Uri _address;
+        private SortedList<String, String> _requestFields = new SortedList<String, String>(new VPCStringComparer());
+        private String _rawResponse;
+        private SortedList<String, String> _responseFields = new SortedList<String, String>(new VPCStringComparer());
+        private String _secureSecret;
 
         public VPCRequest(String URL)
         {
@@ -93,7 +80,7 @@ namespace WebBanHang.Models
             //Payment Server URL
             url.Append(_address);
             url.Append("?");
-            //Create URL Encoded request string from request fields 
+            //Create URL Encoded request string from request fields
             url.Append(GetRequestRaw());
             //Hash the request fields
             url.Append("&vpc_SecureHash=");
@@ -109,7 +96,6 @@ namespace WebBanHang.Models
                 {
                     _responseFields.Add(item, nameValueCollection[item]);
                 }
-
             }
 
             if (!nameValueCollection["vpc_TxnResponseCode"].Equals("0") && !String.IsNullOrEmpty(nameValueCollection["vpc_Message"]))
@@ -144,9 +130,9 @@ namespace WebBanHang.Models
              <summary>Customised Compare Class</summary>
              <remarks>
              <para>
-             The Virtual Payment Client need to use an Ordinal comparison to Sort on 
-             the field names to create the SHA256 Signature for validation of the message. 
-             This class provides a Compare method that is used to allow the sorted list 
+             The Virtual Payment Client need to use an Ordinal comparison to Sort on
+             the field names to create the SHA256 Signature for validation of the message.
+             This class provides a Compare method that is used to allow the sorted list
              to be ordered using an Ordinal comparison.
              </para>
              </remarks>
@@ -161,7 +147,7 @@ namespace WebBanHang.Models
                  <returns>An int containing the result of the comparison.</returns>
                  */
 
-                // Return if we are comparing the same object or one of the 
+                // Return if we are comparing the same object or one of the
                 // objects is null, since we don't need to go any further.
                 if (a == b) return 0;
                 if (a == null) return -1;
@@ -189,7 +175,7 @@ namespace WebBanHang.Models
         {
             // Hex Decode the Secure Secret for use in using the HMACSHA256 hasher
             // hex decoding eliminates this source of error as it is independent of the character encoding
-            // hex decoding is precise in converting to a byte array and is the preferred form for representing binary values as hex strings. 
+            // hex decoding is precise in converting to a byte array and is the preferred form for representing binary values as hex strings.
             byte[] convertedHash = new byte[_secureSecret.Length / 2];
             for (int i = 0; i < _secureSecret.Length / 2; i++)
             {

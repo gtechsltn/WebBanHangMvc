@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using AutoMapper;
 using System.Dynamic;
 using System.Linq;
+using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
-using WebBanHang.Core;
+using System.Web.Script.Serialization;
+using System.Web.Security;
 using WebBanHang.Core.RepositoryModel;
 using WebBanHang.Models;
 using WebBanHang.Utils;
-using System.Configuration;
-using System.Web.Security;
-using System.Web.Script.Serialization;
-using System.Security.Principal;
-using AutoMapper;
 
 namespace WebBanHang.Core
 {
@@ -20,9 +16,12 @@ namespace WebBanHang.Core
     {
         protected UnitOfWork Repository { get; set; }
         protected IMapper Mapper { get; set; }
-        protected ShoppingCart Cart {
+
+        protected ShoppingCart Cart
+        {
             get { return ShoppingCart.Instance; }
         }
+
         public BaseController()
         {
             ecommerceEntities entity = new ecommerceEntities();
@@ -32,7 +31,6 @@ namespace WebBanHang.Core
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-           
             //  set viewbag data
             dynamic viewBagData = new ExpandoObject();
             viewBagData.Config = Repository.Bind<ConfigRepository>()
@@ -52,7 +50,7 @@ namespace WebBanHang.Core
         {
             base.OnAuthentication(filterContext);
             HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
-            if(authCookie != null)
+            if (authCookie != null)
             {
                 FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt(authCookie.Value);
                 JavaScriptSerializer js = new JavaScriptSerializer();
@@ -70,5 +68,5 @@ namespace WebBanHang.Core
                 filterContext.HttpContext.User = principal;
             }
         }
-	}
+    }
 }

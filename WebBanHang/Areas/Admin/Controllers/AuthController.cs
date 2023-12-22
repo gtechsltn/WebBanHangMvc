@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -39,22 +37,23 @@ namespace WebBanHang.Areas.Admin.Controllers
                 ModelState.AddModelError("Password", "Mật khẩu không chính xác");
             }
 
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                Response.SetAuthCookie(FormsAuthentication.FormsCookieName+"_ADMIN",model.Remember,user.UserID);
-                return RedirectToAction("Index","Home");
+                Response.SetAuthCookie(FormsAuthentication.FormsCookieName + "_ADMIN", model.Remember, user.UserID);
+                return RedirectToAction("Index", "Home");
             }
             return View(model);
         }
 
-        public ActionResult Logout(){
-            if (Request.Cookies[FormsAuthentication.FormsCookieName+"_ADMIN"] != null)
+        public ActionResult Logout()
+        {
+            if (Request.Cookies[FormsAuthentication.FormsCookieName + "_ADMIN"] != null)
             {
                 HttpCookie myCookie = new HttpCookie(FormsAuthentication.FormsCookieName + "_ADMIN");
                 myCookie.Expires = DateTime.Now.AddDays(-1d);
                 Response.Cookies.Add(myCookie);
             }
-            return RedirectToAction("Index", "Home", new { area = "Admin"});
+            return RedirectToAction("Index", "Home", new { area = "Admin" });
         }
-	}
+    }
 }

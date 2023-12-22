@@ -1,9 +1,6 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Dynamic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using WebBanHang.Core;
 using WebBanHang.Models;
@@ -54,12 +51,11 @@ namespace WebBanHang.Controllers
             Product product = Repository.Product.FindById(id);
             Color colorItem = Repository.Color.FindById(color);
             if (product == null) return HttpNotFound("Item not found");
-            var item = Cart.Update(product,colorItem,quantity);
-            if(item != null)
-                return Content(HtmlExtension.FormatCurrency(item.TotalPrice) +" đ");
+            var item = Cart.Update(product, colorItem, quantity);
+            if (item != null)
+                return Content(HtmlExtension.FormatCurrency(item.TotalPrice) + " đ");
             return HttpNotFound();
         }
-
 
         public ActionResult GetListColor(int? id)
         {
@@ -69,7 +65,6 @@ namespace WebBanHang.Controllers
             result.message = "";
             result.count = colors.Count;
             result.colors = colors;
-
 
             if (id == null)
             {
@@ -103,5 +98,5 @@ namespace WebBanHang.Controllers
         {
             return PartialView();
         }
-	}
+    }
 }

@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace WebBanHang.ViewModels
 {
     public class AdminConfigViewModel
     {
-        [Required(ErrorMessage="Vui lòng nhập tên trang web")]
+        [Required(ErrorMessage = "Vui lòng nhập tên trang web")]
         public String SiteTitle { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập SĐT hỗ trợ")]
@@ -16,11 +13,11 @@ namespace WebBanHang.ViewModels
         public String Phone { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập Email hỗ trợ")]
-        [EmailAddress(ErrorMessage="Email nhập vào không hợp lệ")]
+        [EmailAddress(ErrorMessage = "Email nhập vào không hợp lệ")]
         public String Email { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập số lượng sản phẩm trong 1 trang")]
-        [Range(5,1000, ErrorMessage = "Số lượng hiển thị trong 1 trang phải ít nhất 5 đến 1000 sản phẩm")]
+        [Range(5, 1000, ErrorMessage = "Số lượng hiển thị trong 1 trang phải ít nhất 5 đến 1000 sản phẩm")]
         public int ProductPerPage { get; set; }
     }
 }

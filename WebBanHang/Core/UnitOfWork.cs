@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Web;
 using WebBanHang.Core.RepositoryModel;
 
 namespace WebBanHang.Core
@@ -14,6 +12,7 @@ namespace WebBanHang.Core
 
         //Private members corresponding to each concrete repository
         private ColorRepository colorRepository;
+
         private ConfigRepository configRepository;
         private CustomerRepository customerRepository;
         private GroupProductRepository groupProductRepository;
@@ -43,7 +42,6 @@ namespace WebBanHang.Core
                     colorRepository = new ColorRepository(_dbContext);
                 return colorRepository;
             }
-
         }
 
         /// <summary>
@@ -57,7 +55,6 @@ namespace WebBanHang.Core
                     configRepository = new ConfigRepository(_dbContext);
                 return configRepository;
             }
-
         }
 
         /// <summary>
@@ -71,13 +68,12 @@ namespace WebBanHang.Core
                     customerRepository = new CustomerRepository(_dbContext);
                 return customerRepository;
             }
-
         }
 
         /// <summary>
         /// GroupProduct Repository
         /// </summary>
-        public GroupProductRepository GroupProduct 
+        public GroupProductRepository GroupProduct
         {
             get
             {
@@ -85,7 +81,6 @@ namespace WebBanHang.Core
                     groupProductRepository = new GroupProductRepository(_dbContext);
                 return groupProductRepository;
             }
-
         }
 
         /// <summary>
@@ -99,8 +94,8 @@ namespace WebBanHang.Core
                     menuRepository = new MenuRepository(_dbContext);
                 return menuRepository;
             }
-
         }
+
         /// <summary>
         /// Product Repository
         /// </summary>
@@ -112,7 +107,6 @@ namespace WebBanHang.Core
                     productRepository = new ProductRepository(_dbContext);
                 return productRepository;
             }
-
         }
 
         public ProvinceRepository Province
@@ -123,7 +117,6 @@ namespace WebBanHang.Core
                     provinceRepository = new ProvinceRepository(_dbContext);
                 return provinceRepository;
             }
-
         }
 
         public DistrictRepository District
@@ -134,7 +127,6 @@ namespace WebBanHang.Core
                     districtRepository = new DistrictRepository(_dbContext);
                 return districtRepository;
             }
-
         }
 
         public WardRepository Ward
@@ -145,7 +137,6 @@ namespace WebBanHang.Core
                     wardRepository = new WardRepository(_dbContext);
                 return wardRepository;
             }
-
         }
 
         public UserRepository User
@@ -191,10 +182,10 @@ namespace WebBanHang.Core
         public T Bind<T>() where T : class
         {
             if (dict.ContainsKey(typeof(T))) return (T)dict[typeof(T)];
-            var result = (T) Activator.CreateInstance(typeof(T), _dbContext);
+            var result = (T)Activator.CreateInstance(typeof(T), _dbContext);
             if (result != null)
             {
-                dict.Add(typeof(T),result);
+                dict.Add(typeof(T), result);
                 return result;
             }
             return null;

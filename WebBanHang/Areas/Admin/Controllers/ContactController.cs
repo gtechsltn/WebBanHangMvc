@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using WebBanHang.Models;
 using WebBanHang.Utils;
@@ -22,7 +20,7 @@ namespace WebBanHang.Areas.Admin.Controllers
         {
             var repo = Repository.Create<Contact>();
             List<object> data = new List<object>();
-            var contacts = repo.FetchAll().OrderByDescending(c=>c.Time).AsQueryable();
+            var contacts = repo.FetchAll().OrderByDescending(c => c.Time).AsQueryable();
             var recordCount = contacts.Count();
             contacts = contacts.Skip(start).Take(length);
             foreach (var contact in contacts)
@@ -33,7 +31,7 @@ namespace WebBanHang.Areas.Admin.Controllers
                     full_name = contact.FullName,
                     email = contact.Email,
                     phone = contact.Phone,
-                    message = contact.Message.Truncate(90,true,true),
+                    message = contact.Message.Truncate(90, true, true),
                     customer_id = contact.CustomerID,
                     ip = contact.IP,
                     time = contact.Time.ToRelativeString(),
@@ -71,7 +69,7 @@ namespace WebBanHang.Areas.Admin.Controllers
             if (contact == null) return HttpNotFound();
             repo.Delete(id);
             repo.SaveChanges();
-            return RedirectToAction("Index","Contact");
+            return RedirectToAction("Index", "Contact");
         }
-	}
+    }
 }

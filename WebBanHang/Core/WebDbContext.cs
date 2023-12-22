@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Web;
 
 namespace WebBanHang.Core
 {
@@ -10,7 +7,6 @@ namespace WebBanHang.Core
     {
         public WebDbContext(String connectionString) : base(connectionString)
         {
-            
         }
     }
 }

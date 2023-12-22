@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Web;
 using WebBanHang.Models;
 
@@ -11,10 +9,14 @@ namespace WebBanHang.Core
         public const string CartSessionKey = "HiThaShopCart";
         public List<CartItem> Items { get; set; }
         private static ShoppingCart m_instance = null;
-        private ShoppingCart() { }
+
+        private ShoppingCart()
+        { }
+
         public static ShoppingCart Instance
         {
-            get{
+            get
+            {
                 if (HttpContext.Current.Session[CartSessionKey] == null)
                 {
                     m_instance = new ShoppingCart();
@@ -45,10 +47,9 @@ namespace WebBanHang.Core
             return total;
         }
 
-
         public void AddItem(Product product, Color color, int quantity = 1)
         {
-            CartItem newItem = new CartItem(product,color);
+            CartItem newItem = new CartItem(product, color);
 
             if (Items.Contains(newItem))
             {

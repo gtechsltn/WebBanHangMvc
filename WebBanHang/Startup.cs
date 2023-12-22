@@ -2,6 +2,7 @@
 using Owin;
 
 [assembly: OwinStartupAttribute(typeof(WebBanHang.Startup))]
+
 namespace WebBanHang
 {
     public partial class Startup

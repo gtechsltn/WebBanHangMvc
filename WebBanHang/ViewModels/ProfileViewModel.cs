@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace WebBanHang.ViewModels
 {
@@ -11,7 +7,7 @@ namespace WebBanHang.ViewModels
         public int CustomerID { get; set; }
 
         [Display(Name = "Mật khẩu")]
-        [StringLength(16,MinimumLength=6,ErrorMessage= "Mật khẩu từ {2} đến {1} ký tự")]
+        [StringLength(16, MinimumLength = 6, ErrorMessage = "Mật khẩu từ {2} đến {1} ký tự")]
         public string Passwrord { get; set; }
 
         [Display(Name = "Mật khẩu mới")]
@@ -23,10 +19,9 @@ namespace WebBanHang.ViewModels
         public string ConfirmPasswrord { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập họ tên đầy đủ")]
-        [StringLength(50,ErrorMessage="Tên không được dài quá {1} ký tự")]
+        [StringLength(50, ErrorMessage = "Tên không được dài quá {1} ký tự")]
         [Display(Name = "Họ và tên")]
         public string FullName { get; set; }
-
 
         [Required(ErrorMessage = "Vui lòng nhập địa chỉ")]
         [Display(Name = "Địa chỉ")]
@@ -45,9 +40,9 @@ namespace WebBanHang.ViewModels
         [Required(ErrorMessage = "Vui lòng chọn Phường/Xã")]
         public int WardID { get; set; }
 
-        [Required(ErrorMessage="Vui lòng nhập số điện thoại")]
-        [Display(Name="Số ĐT")]
-        [RegularExpression("^[0][0-9]{9,10}",ErrorMessage="Số điện thoại nhập vào không hợp lệ")]
+        [Required(ErrorMessage = "Vui lòng nhập số điện thoại")]
+        [Display(Name = "Số ĐT")]
+        [RegularExpression("^[0][0-9]{9,10}", ErrorMessage = "Số điện thoại nhập vào không hợp lệ")]
         public string Phone { get; set; }
     }
 }

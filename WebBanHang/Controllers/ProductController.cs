@@ -1,8 +1,5 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using WebBanHang.Core;
 using WebBanHang.Core.RepositoryModel;
@@ -30,15 +27,16 @@ namespace WebBanHang.Controllers
         public ActionResult Search(int? group, String q)
         {
             var products = Repository.Product.FetchAll();
-            if(group != null && group != 0){
-                products = products.Where(p=>p.GroupID == group);
+            if (group != null && group != 0)
+            {
+                products = products.Where(p => p.GroupID == group);
             }
             if (!String.IsNullOrEmpty(q))
             {
-                products = products.Where(p=>p.ProductName.ToLower().Contains(q));
+                products = products.Where(p => p.ProductName.ToLower().Contains(q));
             }
             ViewBag.Query = q;
             return View(products);
         }
-	}
+    }
 }

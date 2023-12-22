@@ -1,9 +1,7 @@
-﻿using AutoMapper;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
@@ -57,7 +55,7 @@ namespace WebBanHang.Areas.Admin.Controllers
         }
 
         // POST: /Admin/Product/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -78,7 +76,8 @@ namespace WebBanHang.Areas.Admin.Controllers
                 {
                     foreach (var pColor in model.ProductColor)
                     {
-                        product.ProductColors.Add(new ProductColor() { 
+                        product.ProductColors.Add(new ProductColor()
+                        {
                             ColorID = pColor.ColorID,
                             ProductID = product.ProductID,
                             Stock = pColor.Stock
@@ -87,7 +86,8 @@ namespace WebBanHang.Areas.Admin.Controllers
                     Repository.SaveChanges();
                 }
 
-                if(model.ProductAttribute.Count > 0){
+                if (model.ProductAttribute.Count > 0)
+                {
                     var attrRepo = Repository.Create<ProductAttribute>();
                     foreach (var attr in model.ProductAttribute)
                     {
@@ -102,8 +102,7 @@ namespace WebBanHang.Areas.Admin.Controllers
                     }
                     Repository.SaveChanges();
                 }
-                return RedirectToAction("Edit", "Product", new { id=product.ProductID});
-                    
+                return RedirectToAction("Edit", "Product", new { id = product.ProductID });
             }
             ViewBag.AttrGroup = Repository.Create<AttributeGroup>().FetchAll();
             ViewBag.GroupProducts = Repository.GroupProduct.FetchAll();
@@ -126,7 +125,7 @@ namespace WebBanHang.Areas.Admin.Controllers
             var pColors = Repository.Create<ProductColor>().FetchAll();
             ViewBag.AttrGroup = Repository.Create<AttributeGroup>().FetchAll();
             ViewBag.GroupProducts = Repository.GroupProduct.FetchAll();
-            ViewBag.Colors = Repository.Color.FetchAll().Where(c => !pColors.Any(p=>p.ColorID == c.ColorID && p.ProductID == product.ProductID)).ToList();
+            ViewBag.Colors = Repository.Color.FetchAll().Where(c => !pColors.Any(p => p.ColorID == c.ColorID && p.ProductID == product.ProductID)).ToList();
             ViewBag.GroupName = product.GroupProduct.GroupName;
             var model = Mapper.Map<Product, AdminProductViewModel>(product);
             model.ProductColor = product.ProductColors.ToList();
@@ -136,7 +135,7 @@ namespace WebBanHang.Areas.Admin.Controllers
         }
 
         // POST: /Admin/Product/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -188,7 +187,7 @@ namespace WebBanHang.Areas.Admin.Controllers
             if (product == null) return Content("error");
             Repository.Product.Delete(product.ProductID);
             Repository.SaveChanges();
-            if(Repository.Product.FetchAll().Any(p=>p.ProductID == id))
+            if (Repository.Product.FetchAll().Any(p => p.ProductID == id))
                 return Content("error");
             return Content("success");
         }
@@ -211,7 +210,8 @@ namespace WebBanHang.Areas.Admin.Controllers
             var listAttr = Repository.Create<WebBanHang.Models.Attribute>().FetchAll().Where(a => a.AttriGroupID == id || a.AttriGroupID == null);
             var pAttrs = Repository.Create<ProductAttribute>().FetchAll();
             StringBuilder builder = new StringBuilder();
-            if (listAttr == null || (listAttr !=null && listAttr.Count() == 0)) {
+            if (listAttr == null || (listAttr != null && listAttr.Count() == 0))
+            {
                 builder.Append(String.Format("<option value=\"\">Không có thuộc tính</option>"));
                 return Content(builder.ToString());
             }
@@ -219,11 +219,11 @@ namespace WebBanHang.Areas.Admin.Controllers
             List<WebBanHang.Models.Attribute> availableAttr = listAttr.ToList();
             if (available)
             {
-                availableAttr = availableAttr.Where(a => !pAttrs.Any(p=>p.AttrID == a.AttrID && p.ProductID == product_id)).ToList();
+                availableAttr = availableAttr.Where(a => !pAttrs.Any(p => p.AttrID == a.AttrID && p.ProductID == product_id)).ToList();
             }
             foreach (var attr in availableAttr)
             {
-                builder.Append(String.Format("<option value=\"{0}\">{1}</option>",attr.AttrID,attr.AttrName));
+                builder.Append(String.Format("<option value=\"{0}\">{1}</option>", attr.AttrID, attr.AttrName));
             }
 
             return Content(builder.ToString());
@@ -262,11 +262,12 @@ namespace WebBanHang.Areas.Admin.Controllers
             return Content(builder.ToString());
         }
 
-
-        public ActionResult LoadAttr(int id) {
-            var attrList = Repository.Create<ProductAttribute>().FetchAll().Where(a=>a.ProductID == id);
+        public ActionResult LoadAttr(int id)
+        {
+            var attrList = Repository.Create<ProductAttribute>().FetchAll().Where(a => a.ProductID == id);
             var data = new List<object>();
-            foreach(var attr in attrList){
+            foreach (var attr in attrList)
+            {
                 var dataAttr = new List<object>();
                 dataAttr.Add(attr.Attribute.AttrName);
                 dataAttr.Add(attr.Value);
@@ -314,7 +315,8 @@ namespace WebBanHang.Areas.Admin.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult DeleteAttr(int? id, int? attr_id) {
+        public ActionResult DeleteAttr(int? id, int? attr_id)
+        {
             var repo = Repository.Create<ProductAttribute>();
             if (id == null || attr_id == null) return Content("error");
             String status = "";
@@ -331,7 +333,7 @@ namespace WebBanHang.Areas.Admin.Controllers
             var repo = Repository.Create<ImageProduct>();
             if (pImg.ImageID == 0 || pImg.ProductID == 0) return Content("error");
             String status = "";
-            if (repo.Delete(pImg.ImageID,pImg.ProductID))
+            if (repo.Delete(pImg.ImageID, pImg.ProductID))
                 status = "success";
             else
                 status = "error";
@@ -345,14 +347,16 @@ namespace WebBanHang.Areas.Admin.Controllers
             dynamic result = new ExpandoObject();
             result.status = true;
             result.message = "";
-            if (pAttr.ProductID == 0 || pAttr.AttrID == 0 || String.IsNullOrEmpty(pAttr.Value)) {
+            if (pAttr.ProductID == 0 || pAttr.AttrID == 0 || String.IsNullOrEmpty(pAttr.Value))
+            {
                 result.status = false;
                 result.message = "Thiếu thuộc tính";
                 return Content(JsonConvert.SerializeObject(result), "application/json");
             }
             var product = Repository.Product.FindById(pAttr.ProductID);
             var attr = Repository.Create<WebBanHang.Models.Attribute>().FindById(pAttr.AttrID);
-            if(product == null){
+            if (product == null)
+            {
                 result.status = false;
                 result.message = "Không tồn tại sản phẩm";
                 return Content(JsonConvert.SerializeObject(result), "application/json");
@@ -363,7 +367,7 @@ namespace WebBanHang.Areas.Admin.Controllers
                 result.message = "Không tồn thuộc tính";
                 return Content(JsonConvert.SerializeObject(result), "application/json");
             }
-            var existpAttr = product.ProductAttributes.Any(p=>p.AttrID == pAttr.AttrID);
+            var existpAttr = product.ProductAttributes.Any(p => p.AttrID == pAttr.AttrID);
             if (existpAttr)
             {
                 result.status = false;
@@ -397,17 +401,19 @@ namespace WebBanHang.Areas.Admin.Controllers
             }
             var product = Repository.Product.FindById(pColorBind.ProductID);
             var color = Repository.Color.FindById(pColorBind.ColorID);
-            if(product == null){
+            if (product == null)
+            {
                 result.status = false;
                 result.message = "Sản phẩm không tồn tại";
                 return Content(JsonConvert.SerializeObject(result), "application/json");
             }
-            if(color == null){
+            if (color == null)
+            {
                 result.status = false;
                 result.message = "Màu này không tồn tại";
                 return Content(JsonConvert.SerializeObject(result), "application/json");
             }
-            if(product.ProductColors.Any(p=>p.ColorID == pColorBind.ColorID))
+            if (product.ProductColors.Any(p => p.ColorID == pColorBind.ColorID))
             {
                 result.status = false;
                 result.message = "Màu này đã được thêm trước đó rồi";
@@ -468,7 +474,6 @@ namespace WebBanHang.Areas.Admin.Controllers
             result.status = true;
             result.message = "Xóa màu thành công!!!";
             return Content(JsonConvert.SerializeObject(result), "application/json");
-
         }
 
         public ActionResult UpdateAttr(ProductAttribute pAttr)
@@ -551,7 +556,8 @@ namespace WebBanHang.Areas.Admin.Controllers
             return Content(JsonConvert.SerializeObject(result), "application/json");
         }
 
-        public ActionResult GetProductAttr(int? product_id, int? attr_id) {
+        public ActionResult GetProductAttr(int? product_id, int? attr_id)
+        {
             dynamic result = new ExpandoObject();
             result.status = true;
             result.message = "";
@@ -563,7 +569,8 @@ namespace WebBanHang.Areas.Admin.Controllers
             }
             var repo = Repository.Create<ProductAttribute>();
             var pAttr = repo.FindById(product_id, attr_id);
-            if(pAttr == null){
+            if (pAttr == null)
+            {
                 result.status = false;
                 result.message = "Thuộc tính của sản phẩm này không tồn tại";
                 return Content(JsonConvert.SerializeObject(result), "application/json");
@@ -627,10 +634,11 @@ namespace WebBanHang.Areas.Admin.Controllers
             for (int i = 0; i < hfc.Count; i++)
             {
                 HttpPostedFileBase file = hfc[i];
-                if(file != null || file.ContentLength > 0){
+                if (file != null || file.ContentLength > 0)
+                {
                     var currDate = DateTime.Now;
-                    var fileName = StringUtils.GenerateID()+"_"+file.FileName;
-                    var folderSave = Server.MapPath("~/Uploads/"+currDate.Year+"/"+currDate.Month+"/"+currDate.Day);
+                    var fileName = StringUtils.GenerateID() + "_" + file.FileName;
+                    var folderSave = Server.MapPath("~/Uploads/" + currDate.Year + "/" + currDate.Month + "/" + currDate.Day);
                     bool folderExists = Directory.Exists(folderSave);
                     if (!folderExists)
                         Directory.CreateDirectory(folderSave);
@@ -638,7 +646,8 @@ namespace WebBanHang.Areas.Admin.Controllers
                     file.SaveAs(fileSave);
                     result.status = "success";
                     result.message = "Upload thành công";
-                    product.ImageProducts.Add(new ImageProduct() { 
+                    product.ImageProducts.Add(new ImageProduct()
+                    {
                         ImagePath = fileSave.Replace(Server.MapPath("~/"), "/").Replace(@"\", "/"),
                         Caption = file.FileName
                     });

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using WebBanHang.Models;
 using WebBanHang.Utils;
 
@@ -13,10 +12,10 @@ namespace WebBanHang.Core.RepositoryModel
     {
         public GroupProductRepository(DbContext db) : base(db)
         {
-            
         }
 
-        public IEnumerable<GroupProduct> GetTopGroupProducts(){
+        public IEnumerable<GroupProduct> GetTopGroupProducts()
+        {
             return FetchAll().Where(item => item.ParentGroupID == null).OrderBy(item => item.GroupName).ToList();
         }
 
@@ -29,7 +28,7 @@ namespace WebBanHang.Core.RepositoryModel
             List<GroupProduct> subGroups = FetchAll().Where(item => item.ParentGroupID == group).ToList();
             foreach (GroupProduct subGroup in subGroups)
             {
-                GetProductInGroups(subGroup.GroupID,products);
+                GetProductInGroups(subGroup.GroupID, products);
             }
             return products;
         }
@@ -53,7 +52,7 @@ namespace WebBanHang.Core.RepositoryModel
                     model = model.Where(item => (item.isSale() && item.SalePrice >= min && item.SalePrice <= max) || (!item.isSale() && item.Price >= min && item.Price <= max));
                 }
             }
-            
+
             if (!String.IsNullOrEmpty(filter["sort"]))
             {
                 switch (filter["sort"])
@@ -61,12 +60,15 @@ namespace WebBanHang.Core.RepositoryModel
                     case "name_asc":
                         model = model.OrderBy(item => item.ProductName);
                         break;
+
                     case "name_desc":
                         model = model.OrderByDescending(item => item.ProductName);
                         break;
+
                     case "price_asc":
                         model = model.OrderBy(item => item.isSale() ? item.SalePrice : item.Price);
                         break;
+
                     case "price_desc":
                         model = model.OrderByDescending(item => item.isSale() ? item.SalePrice : item.Price);
                         break;

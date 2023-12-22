@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Routing;
 
 namespace WebBanHang.Core
 {
@@ -12,6 +8,7 @@ namespace WebBanHang.Core
         public String AuthUrl { get; set; }
         private String customerAuth = "/Home";
         private String adminAuth = "/Admin/Home";
+
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             var currentArea = (filterContext.RouteData.DataTokens["area"] ?? "").ToString();
@@ -31,7 +28,6 @@ namespace WebBanHang.Core
                     filterContext.Result = new RedirectResult(adminAuth);
                 }
                 return;
-
             }
         }
     }

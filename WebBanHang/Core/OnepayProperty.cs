@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace WebBanHang.Models
+﻿namespace WebBanHang.Models
 {
     public class OnepayProperty
     {
         public const string HASH_CODE = "A3EFDFABA8653DF2342E8DAC29B51AF0";
-            //"6D0870CDE5F24F34F3915FB0045120DB";
+        //"6D0870CDE5F24F34F3915FB0045120DB";
 
         public const string ACCESS_CODE = "D67342C2";
-            //"6BEB2546";
+        //"6BEB2546";
 
         public const string MERCHANT_ID = "ONEPAY";
-            //"TESTONEPAY";
+        //"TESTONEPAY";
 
         public const string URL_ONEPAY_TEST = "https://mtf.onepay.vn/onecomm-pay/vpc.op";
 

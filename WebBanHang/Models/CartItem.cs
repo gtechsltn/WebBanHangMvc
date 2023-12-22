@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using WebBanHang.Utils;
 
 namespace WebBanHang.Models
@@ -11,6 +8,7 @@ namespace WebBanHang.Models
         public int ProductID { get; set; }
         public int? ColorID { get; set; }
         public Color Color { get; set; }
+
         public long Price
         {
             get
@@ -20,23 +18,25 @@ namespace WebBanHang.Models
                 return Product.Price;
             }
         }
+
         public int Quantity { get; set; }
+
         public long TotalPrice
         {
             get { return Price * Quantity; }
         }
+
         public Product Product { get; set; }
 
         public CartItem(Product product, Color color)
         {
-            if(product!=null)
+            if (product != null)
                 ProductID = product.ProductID;
             if (color != null)
                 ColorID = color.ColorID;
             Color = color;
             Product = product;
         }
-
 
         public bool Equals(CartItem item)
         {

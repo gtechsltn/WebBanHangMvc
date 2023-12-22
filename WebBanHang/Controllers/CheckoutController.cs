@@ -1,9 +1,6 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Text;
-using System.Web;
 using System.Web.Mvc;
 using WebBanHang.Core;
 using WebBanHang.Models;
@@ -26,7 +23,7 @@ namespace WebBanHang.Controllers
         {
             if (Cart.GetCount() == 0)
                 return RedirectToAction("Index", "Cart");
-            ViewData["Provinces"] = Repository.Province.FetchAll().OrderBy(i=>i.Type+" "+i.ProvinceName).ToList();
+            ViewData["Provinces"] = Repository.Province.FetchAll().OrderBy(i => i.Type + " " + i.ProvinceName).ToList();
             return View();
         }
 
@@ -37,17 +34,18 @@ namespace WebBanHang.Controllers
             model.District = Repository.District.FindById(model.DistrictID);
             model.Ward = Repository.Ward.FindById(model.WardID);
             TempData["Ship"] = model;
-            return RedirectToAction("Payment","Checkout");
+            return RedirectToAction("Payment", "Checkout");
         }
 
         [HttpGet]
-        public ActionResult Payment() {
+        public ActionResult Payment()
+        {
             if (TempData["Ship"] == null)
             {
-                return RedirectToAction("Shipping","Checkout");
+                return RedirectToAction("Shipping", "Checkout");
             }
             var payments = Repository.Payment.FetchAll();
-            ViewData["pCod"] = payments.SingleOrDefault(p=>p.PaymentType.Equals("cod"));
+            ViewData["pCod"] = payments.SingleOrDefault(p => p.PaymentType.Equals("cod"));
             ViewData["pAtm"] = payments.SingleOrDefault(p => p.PaymentType.Equals("atm"));
             ViewData["pOnline"] = payments.SingleOrDefault(p => p.PaymentType.Equals("online"));
             var ship = (ShippingViewModel)TempData["Ship"];
@@ -88,7 +86,8 @@ namespace WebBanHang.Controllers
                     {
                         //Add each item from cart to orderdetail
                         var detailRepo = Repository.Create<OrderDetail>();
-                        foreach(var cart in ShoppingCart.Instance.Items){
+                        foreach (var cart in ShoppingCart.Instance.Items)
+                        {
                             var od = new OrderDetail
                             {
                                 OrderID = newOrder.OrderID,
@@ -103,7 +102,7 @@ namespace WebBanHang.Controllers
                         Repository.SaveChanges();
                         ShoppingCart.Instance.Clean();
                         TempData["ship"] = newOrder;
-                        return RedirectToAction("Success","Checkout");
+                        return RedirectToAction("Success", "Checkout");
                     }
                     ModelState.AddModelError("PaymentMethod", "Đã xảy ra lỗi, không thể đặt hàng!!!");
                 }
@@ -219,12 +218,12 @@ namespace WebBanHang.Controllers
 
         public ActionResult Success()
         {
-            if (TempData["ship"]==null)
+            if (TempData["ship"] == null)
             {
-                return RedirectToAction("Index","Home");
+                return RedirectToAction("Index", "Home");
             }
             var model = (Order)TempData["ship"];
             return View("Checkout_Success", model);
         }
-	}
+    }
 }

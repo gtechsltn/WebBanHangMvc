@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Script.Serialization;
 using System.Web.Security;
@@ -9,10 +7,9 @@ namespace WebBanHang.Utils
 {
     public static class AuthUtils
     {
-        public static int SetAuthCookie(this HttpResponseBase responseBase,String cookieName, bool rememberMe, object userData)
+        public static int SetAuthCookie(this HttpResponseBase responseBase, String cookieName, bool rememberMe, object userData)
         {
-
-            /// In order to pickup the settings from config, we create a default cookie and use its values to create a 
+            /// In order to pickup the settings from config, we create a default cookie and use its values to create a
             /// new one.
             var cookie = FormsAuthentication.GetAuthCookie(cookieName, rememberMe);
             cookie.Name = cookieName;

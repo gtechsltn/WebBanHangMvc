@@ -1,9 +1,7 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using WebBanHang.Core;
 
@@ -18,7 +16,6 @@ namespace WebBanHang.Controllers
             return View();
         }
 
-        
         public ActionResult Province()
         {
             //Init Result
@@ -31,8 +28,10 @@ namespace WebBanHang.Controllers
             result.provices = provinceList;
 
             //Result content
-            foreach(var item in provices){
-                provinceList.Add(new {
+            foreach (var item in provices)
+            {
+                provinceList.Add(new
+                {
                     province_id = item.ProvinceID,
                     province_name = item.ProvinceName,
                     province_type = item.Type
@@ -58,7 +57,8 @@ namespace WebBanHang.Controllers
             else
             {
                 var province = Repository.Province.FindById(id);
-                if(province == null){
+                if (province == null)
+                {
                     result.status = "error";
                     result.message = "Province does not exist in database";
                 }
@@ -74,7 +74,7 @@ namespace WebBanHang.Controllers
                     };
                     result.count = 0;
                     result.districts = districtList;
-                    var districts = province.Districts.OrderBy(i=> i.Type+" "+i.DistrictName ).ToList();
+                    var districts = province.Districts.OrderBy(i => i.Type + " " + i.DistrictName).ToList();
                     foreach (var item in districts)
                     {
                         districtList.Add(new
@@ -130,7 +130,7 @@ namespace WebBanHang.Controllers
                     };
                     result.count = 0;
                     result.wards = wardList;
-                    var wards = dictrict.Wards.OrderBy(i=>i.Type+" "+i.WardName).ToList();
+                    var wards = dictrict.Wards.OrderBy(i => i.Type + " " + i.WardName).ToList();
                     foreach (var item in wards)
                     {
                         wardList.Add(new
@@ -138,7 +138,8 @@ namespace WebBanHang.Controllers
                             ward_id = item.WardId,
                             ward_name = item.WardName,
                             ward_type = item.Type,
-                            district = new {
+                            district = new
+                            {
                                 district_id = item.District.DistrictID,
                                 district_name = item.District.DistrictName,
                                 district_type = item.District.Type,
@@ -163,6 +164,5 @@ namespace WebBanHang.Controllers
             result.count = total;
             return Content(JsonConvert.SerializeObject(result), "application/json");
         }
-
-	}
+    }
 }

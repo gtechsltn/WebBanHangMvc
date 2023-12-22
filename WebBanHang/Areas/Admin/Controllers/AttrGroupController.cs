@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using WebBanHang.Models;
 
@@ -18,21 +17,22 @@ namespace WebBanHang.Areas.Admin.Controllers
             return View();
         }
 
-
         public ActionResult LoadGroupAttr()
         {
             var search = Request.QueryString["search[value]"];
             var attrGroup = Repository.Create<AttributeGroup>().FetchAll().Where(a => a.AttrGroupName.Contains(search));
             List<object> data = new List<object>();
-            foreach(var group in attrGroup){
+            foreach (var group in attrGroup)
+            {
                 List<object> attrValue = new List<object>();
                 attrValue.Add(group.AttrGroupID);
                 attrValue.Add(group.AttrGroupName);
                 data.Add(attrValue);
             }
-            return Content(JsonConvert.SerializeObject(new { 
+            return Content(JsonConvert.SerializeObject(new
+            {
                 data = data
-            }),"application/json");
+            }), "application/json");
         }
 
         [HttpPost]
@@ -44,11 +44,12 @@ namespace WebBanHang.Areas.Admin.Controllers
                 result.status = "error";
                 result.title = "Thêm thất bại";
                 result.message = "Tên nhóm thuộc tính không được để trống";
-                return Content(JsonConvert.SerializeObject(result),"application/json");
+                return Content(JsonConvert.SerializeObject(result), "application/json");
             }
             var repo = Repository.Create<AttributeGroup>();
-            var isExist = repo.FetchAll().Any(a => a.AttrGroupName.Equals(group.AttrGroupName,StringComparison.OrdinalIgnoreCase));
-            if(isExist){
+            var isExist = repo.FetchAll().Any(a => a.AttrGroupName.Equals(group.AttrGroupName, StringComparison.OrdinalIgnoreCase));
+            if (isExist)
+            {
                 result.status = "error";
                 result.title = "Thêm thất bại";
                 result.message = "Nhóm này đã tồn tại trong hệ thống, vui lòng chọn tên khác";
@@ -74,7 +75,7 @@ namespace WebBanHang.Areas.Admin.Controllers
         public ActionResult AttrGroupInfo(int? id)
         {
             dynamic result = new ExpandoObject();
-            if(id == null)
+            if (id == null)
             {
                 result.status = false;
                 result.message = "Thiếu thông số";
@@ -90,11 +91,12 @@ namespace WebBanHang.Areas.Admin.Controllers
             }
 
             result.status = true;
-            result.data = new {
+            result.data = new
+            {
                 attr_group_id = attrGroup.AttrGroupID,
                 attr_group_name = attrGroup.AttrGroupName
             };
-            return Content(JsonConvert.SerializeObject(result),"application/json");
+            return Content(JsonConvert.SerializeObject(result), "application/json");
         }
 
         [HttpPost]
@@ -110,7 +112,8 @@ namespace WebBanHang.Areas.Admin.Controllers
             }
             var repo = Repository.Create<AttributeGroup>();
             var oldGroup = repo.FindById(group.AttrGroupID);
-            if(oldGroup == null){
+            if (oldGroup == null)
+            {
                 result.status = "error";
                 result.title = "Chỉnh sửa thất bại";
                 result.message = "Nhóm thuộc tính này không tồn tại trong hệ thống";
@@ -151,6 +154,5 @@ namespace WebBanHang.Areas.Admin.Controllers
             result.message = "Chúc mừng bạn đã xóa thành công thông tin nhóm thuộc tính";
             return Content(JsonConvert.SerializeObject(result), "application/json");
         }
-	}
-
+    }
 }

@@ -1,12 +1,10 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using WebBanHang.Utils;
-using WebBanHang.Models;
 using System.Dynamic;
+using System.Linq;
+using System.Web.Mvc;
+using WebBanHang.Models;
 
 namespace WebBanHang.Areas.Admin.Controllers
 {
@@ -26,7 +24,7 @@ namespace WebBanHang.Areas.Admin.Controllers
             var attrs = Repository.Create<WebBanHang.Models.Attribute>()
                                     .FetchAll()
                                     .Where(a => a.AttrName.ToLower().Contains(search))
-                                    .OrderBy(a=>a.AttriGroupID);
+                                    .OrderBy(a => a.AttriGroupID);
             List<object> data = new List<object>();
             foreach (var attr in attrs)
             {
@@ -37,11 +35,12 @@ namespace WebBanHang.Areas.Admin.Controllers
                 //    attrValue.Add("Nhóm chung");
                 //else
                 //    attrValue.Add(attr.AttributeGroup.AttrGroupName);
-                attrValue.Add(new { 
+                attrValue.Add(new
+                {
                     group_id = (attr.AttriGroupID == null) ? 0 : attr.AttriGroupID,
-                    group_name = (attr.AttriGroupID == null)?"Nhóm chung":attr.AttributeGroup.AttrGroupName
+                    group_name = (attr.AttriGroupID == null) ? "Nhóm chung" : attr.AttributeGroup.AttrGroupName
                 });
-                data.Add(attrValue);    
+                data.Add(attrValue);
             }
             return Content(JsonConvert.SerializeObject(new
             {
@@ -53,14 +52,16 @@ namespace WebBanHang.Areas.Admin.Controllers
         public ActionResult InsertAttr(WebBanHang.Models.Attribute attr)
         {
             dynamic result = new ExpandoObject();
-            if(String.IsNullOrEmpty(attr.AttrName)){
+            if (String.IsNullOrEmpty(attr.AttrName))
+            {
                 result.status = "error";
                 result.title = "Thêm thất bại";
                 result.message = "Thiếu thông số";
                 return Content(JsonConvert.SerializeObject(result), "application/json");
             }
             var repo = Repository.Create<WebBanHang.Models.Attribute>();
-            if(repo.FetchAll().Any(a=>a.AttrName.ToLower().Contains(attr.AttrName))){
+            if (repo.FetchAll().Any(a => a.AttrName.ToLower().Contains(attr.AttrName)))
+            {
                 result.status = "error";
                 result.title = "Thêm thất bại";
                 result.message = "Thuộc tính này đã tồn tại";
@@ -121,7 +122,8 @@ namespace WebBanHang.Areas.Admin.Controllers
             }
 
             result.status = true;
-            result.data = new {
+            result.data = new
+            {
                 attr_id = attr.AttrID,
                 attr_name = attr.AttrName,
                 attr_group_id = attr.AttriGroupID,
@@ -134,7 +136,8 @@ namespace WebBanHang.Areas.Admin.Controllers
         {
             dynamic result = new ExpandoObject();
 
-            if(attr.AttrID == 0){
+            if (attr.AttrID == 0)
+            {
                 result.status = "error";
                 result.title = "Chỉnh sửa thất bại";
                 result.message = "Thiếu mã thuộc tính";
@@ -151,7 +154,8 @@ namespace WebBanHang.Areas.Admin.Controllers
 
             var repo = Repository.Create<WebBanHang.Models.Attribute>();
             var oldAttr = repo.FindById(attr.AttrID);
-            if(oldAttr == null){
+            if (oldAttr == null)
+            {
                 result.status = "error";
                 result.title = "Chỉnh sửa thất bại";
                 result.message = "Thuộc tính này không tồn tại trong hệ thống";
@@ -174,5 +178,5 @@ namespace WebBanHang.Areas.Admin.Controllers
             result.message = "Chúc mừng bạn đã thay đổi thông tin thuộc tính thành công!!!";
             return Content(JsonConvert.SerializeObject(result), "application/json");
         }
-	}
+    }
 }

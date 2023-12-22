@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web;
 using System.Web.Mvc;
 using WebBanHang.Core;
 using WebBanHang.Core.RepositoryModel;
@@ -31,7 +27,7 @@ namespace WebBanHang.Controllers
         [HttpPost]
         public ActionResult Add(FormCollection form, ProductViewModel viewModel)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 var groupRepo = Repository.Bind<GroupProductRepository>();
                 ViewBag.GroupProducts = groupRepo.FetchAll();
@@ -54,5 +50,5 @@ namespace WebBanHang.Controllers
 
             return RedirectToAction("Add");
         }
-	}
+    }
 }

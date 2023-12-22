@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace WebBanHang.Utils
 {
@@ -15,6 +12,7 @@ namespace WebBanHang.Utils
             hashedBytes = md5Hasher.ComputeHash(encoder.GetBytes(data));
             return hashedBytes;
         }
+
         public static string MD5(this String data)
         {
             return BitConverter.ToString(encryptData(data)).Replace("-", "").ToLower();

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Principal;
 using System.Web;
-using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using System.Web.Security;
 using WebBanHang.Core;
@@ -15,7 +12,7 @@ namespace WebBanHang.Areas.Admin.Controllers
     {
         protected override void OnAuthentication(System.Web.Mvc.Filters.AuthenticationContext filterContext)
         {
-            HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName+"_ADMIN"];
+            HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName + "_ADMIN"];
             if (authCookie != null)
             {
                 FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt(authCookie.Value);
@@ -34,5 +31,5 @@ namespace WebBanHang.Areas.Admin.Controllers
                 filterContext.HttpContext.User = principal;
             }
         }
-	}
+    }
 }

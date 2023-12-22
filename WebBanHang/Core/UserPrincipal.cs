@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Principal;
-using System.Web;
+﻿using System.Security.Principal;
 using WebBanHang.Models;
 
 namespace WebBanHang.Core
@@ -13,6 +9,7 @@ namespace WebBanHang.Core
         {
             Identity = identity;
         }
+
         public IIdentity Identity
         {
             get;

@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using WebBanHang.Models;
 using WebBanHang.Core;
 using WebBanHang.Core.RepositoryModel;
-using System.Web.Configuration;
-using System.Configuration;
-using System.Dynamic;
+using WebBanHang.Models;
 
 namespace WebBanHang.Controllers
 {
@@ -17,7 +13,7 @@ namespace WebBanHang.Controllers
         public ActionResult Index()
         {
             var productRes = Repository.Bind<ProductRepository>();
-            var groupRes = Repository.Bind<GroupProductRepository>(); 
+            var groupRes = Repository.Bind<GroupProductRepository>();
             dynamic model = new ExpandoObject();
             model.NewProduct = productRes.GetNewProduct(5);
             model.GroupProducts = groupRes.GetTopGroupProducts();

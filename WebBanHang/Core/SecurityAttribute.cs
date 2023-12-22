@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace WebBanHang.Core
 {
     public class SecurityAttribute : AuthorizeAttribute
     {
-        public String AuthUrl { get;set; }
+        public String AuthUrl { get; set; }
         private String customerAuth = "/Customer/Login";
         private String adminAuth = "/Admin/Auth/Login";
 
@@ -23,16 +20,15 @@ namespace WebBanHang.Core
                     filterContext.Result = new RedirectResult(AuthUrl);
                     return;
                 }
-                if(String.IsNullOrEmpty(currentArea))
+                if (String.IsNullOrEmpty(currentArea))
                 {
                     filterContext.Result = new RedirectResult(customerAuth);
                 }
-                else if(currentArea.Equals("Admin")) 
+                else if (currentArea.Equals("Admin"))
                 {
                     filterContext.Result = new RedirectResult(adminAuth);
                 }
                 return;
-                
             }
 
             if (filterContext.Result is HttpUnauthorizedResult)

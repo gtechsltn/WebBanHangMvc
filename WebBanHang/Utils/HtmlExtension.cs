@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using WebBanHang.Models;
 
 namespace WebBanHang.Utils
 {
@@ -75,7 +72,7 @@ namespace WebBanHang.Utils
             return MvcHtmlString.Create(builder.ToString(TagRenderMode.Normal));
         }
 
-        public static MvcHtmlString ValidationLabel(this HtmlHelper htmlHelper,string modelName, string labelClass =  null)
+        public static MvcHtmlString ValidationLabel(this HtmlHelper htmlHelper, string modelName, string labelClass = null)
         {
             Dictionary<string, object> attr = null;
             if (labelClass != null)

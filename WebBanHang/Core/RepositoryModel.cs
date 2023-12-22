@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Validation;
+﻿using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using WebBanHang.Models;
 
 namespace WebBanHang.Core
@@ -37,7 +33,6 @@ namespace WebBanHang.Core
                 this.dbContext = value;
             }
         }
-
 
         public T Insert(T entity)
         {
@@ -74,6 +69,5 @@ namespace WebBanHang.Core
         {
             return dbContext.SaveChanges();
         }
-
     }
 }

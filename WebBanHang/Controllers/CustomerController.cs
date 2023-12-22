@@ -1,16 +1,10 @@
 ﻿using Facebook;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using System.Net;
-using System.Security.Principal;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using WebBanHang.Core;
-using WebBanHang.Core.RepositoryModel;
 using WebBanHang.Models;
 using WebBanHang.Utils;
 using WebBanHang.ViewModels;
@@ -23,12 +17,13 @@ namespace WebBanHang.Controllers
         // GET: /User/
         public ActionResult Index()
         {
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
         [OnlyGuest]
-        public ActionResult Register(SignUpViewModel model){
+        public ActionResult Register(SignUpViewModel model)
+        {
             var existCustomer = Repository.Customer.FindByEmail(model.Email);
             if (existCustomer != null)
             {
@@ -36,26 +31,27 @@ namespace WebBanHang.Controllers
             }
             if (ModelState.IsValid)
             {
-                Customer customer = new Customer { 
+                Customer customer = new Customer
+                {
                     Email = model.Email,
-                    Passwrord=EncryptUtils.MD5(model.Password),
+                    Passwrord = EncryptUtils.MD5(model.Password),
                     FullName = model.FullName,
                     Status = false,
                     RegistrationDate = DateTime.Now
                 };
                 customer = Repository.Customer.Insert(customer);
                 Repository.Customer.SaveChanges();
-                SyncLogin(customer,false);
+                SyncLogin(customer, false);
                 return RedirectToAction("Index", "Home");
             }
-            return View(model); 
+            return View(model);
         }
 
         [HttpGet]
         [OnlyGuest]
         public ActionResult Register()
         {
-            return View();   
+            return View();
         }
 
         [HttpGet]
@@ -81,10 +77,10 @@ namespace WebBanHang.Controllers
             }
             if (ModelState.IsValid)
             {
-                SyncLogin(customer,model.Remember);
+                SyncLogin(customer, model.Remember);
                 if (TempData["ReturnUrl"] != null && TempData["ReturnUrl"].ToString().Length > 0)
                     return Redirect(TempData["ReturnUrl"].ToString());
-                return RedirectToAction("Index","Home");
+                return RedirectToAction("Index", "Home");
             }
             return View(model);
         }
@@ -92,17 +88,18 @@ namespace WebBanHang.Controllers
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
 
         [Authorize]
         [HttpGet]
-        public ActionResult Profile(String return_url) {
+        public ActionResult Profile(String return_url)
+        {
             ViewData["Provinces"] = Repository.Province.FetchAll().ToList();
             TempData["return_url"] = return_url;
-            if(UserManager.CurrentCustomer.ProvinceID != null)
+            if (UserManager.CurrentCustomer.ProvinceID != null)
                 ViewData["Districts"] = UserManager.CurrentCustomer.Province.Districts.ToList();
-            if(UserManager.CurrentCustomer.DistrictID != null)
+            if (UserManager.CurrentCustomer.DistrictID != null)
                 ViewData["Wards"] = UserManager.CurrentCustomer.District.Wards.ToList();
             var profile = UserManager.CurrentCustomer;
             var model = Mapper.Map<Customer, ProfileViewModel>(profile);
@@ -119,7 +116,8 @@ namespace WebBanHang.Controllers
             if (UserManager.CurrentCustomer.DistrictID != null)
                 ViewData["Wards"] = UserManager.CurrentCustomer.District.Wards.ToList();
 
-            if(ModelState.IsValid){
+            if (ModelState.IsValid)
+            {
                 var customer = Repository.Customer.FindById(UserManager.CurrentCustomer.CustomerID);
                 customer.FullName = model.FullName;
                 customer.Phone = model.Phone;
@@ -133,12 +131,11 @@ namespace WebBanHang.Controllers
                 {
                     return Redirect(TempData["return_url"].ToString());
                 }
-                return RedirectToAction("Profile","Customer"); 
+                return RedirectToAction("Profile", "Customer");
             }
 
             return View(model);
         }
-
 
         public ActionResult FacebookLogin()
         {
@@ -153,6 +150,7 @@ namespace WebBanHang.Controllers
             });
             return Redirect(loginUrl.AbsoluteUri);
         }
+
         public ActionResult FacebookCallback(string code)
         {
             var fb = new FacebookClient();
@@ -189,7 +187,7 @@ namespace WebBanHang.Controllers
                     SyncLogin(customer, false);
                 }
             }
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
 
         private Uri RedirectUri
@@ -209,5 +207,5 @@ namespace WebBanHang.Controllers
             if (userdata == null) return;
             Response.SetAuthCookie(FormsAuthentication.FormsCookieName, remember, userdata.CustomerID);
         }
-	}
+    }
 }

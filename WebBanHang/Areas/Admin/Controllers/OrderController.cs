@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using WebBanHang.Models;
 using WebBanHang.Utils;
@@ -24,7 +23,7 @@ namespace WebBanHang.Areas.Admin.Controllers
             var orders = Repository.Order.FetchAll();
             var search = Request.QueryString["search[value]"].ToString();
             int orderIdSearch = 0;
-            Int32.TryParse(search,out orderIdSearch);
+            Int32.TryParse(search, out orderIdSearch);
 
             var ordersFilter = orders
                             .OrderByDescending(o => o.OrderDate)
@@ -33,7 +32,7 @@ namespace WebBanHang.Areas.Admin.Controllers
             {
                 ordersFilter = ordersFilter.Where(o => o.OrderID == orderIdSearch);
             }
-            if(ordersFilter.Count() > 0)
+            if (ordersFilter.Count() > 0)
                 ordersFilter = ordersFilter.Skip(start).Take(length);
             List<object> data = new List<object>();
             foreach (var order in ordersFilter)
@@ -48,18 +47,21 @@ namespace WebBanHang.Areas.Admin.Controllers
                     case 1:
                         statusColor = "warning";
                         break;
+
                     case 2:
                         statusColor = "info";
                         break;
+
                     case 3:
                         statusColor = "success";
                         break;
+
                     default:
                         statusColor = "danger";
                         break;
                 }
-                row.Add("<span data-pk='"+order.OrderID+"' data-value='"+order.OrderStatusID+"' class='label label-"+statusColor+" status-order'>"+order.OrderStatu.OrderStatusName+"</span>");
-                
+                row.Add("<span data-pk='" + order.OrderID + "' data-value='" + order.OrderStatusID + "' class='label label-" + statusColor + " status-order'>" + order.OrderStatu.OrderStatusName + "</span>");
+
                 //Trạng thái thanh toán
                 string text;
                 if (order.Paid)
@@ -80,9 +82,11 @@ namespace WebBanHang.Areas.Admin.Controllers
                     case 1:
                         statusColor = "danger";
                         break;
+
                     case 2:
                         statusColor = "info";
                         break;
+
                     case 3:
                         statusColor = "success";
                         break;
@@ -91,28 +95,30 @@ namespace WebBanHang.Areas.Admin.Controllers
 
                 //Thông tin khách hàng
 
-                row.Add(order.Customer.FullName + "<br>("+order.Customer.Email+")");
+                row.Add(order.Customer.FullName + "<br>(" + order.Customer.Email + ")");
                 row.Add(order.Payment.PaymentName);
                 row.Add(order.OrderDate.ToString("dd/M/yyyy hh:mm tt"));
 
                 data.Add(row);
             }
-            return Content(JsonConvert.SerializeObject(new {
+            return Content(JsonConvert.SerializeObject(new
+            {
                 draw = Request.QueryString["draw"],
                 recordsTotal = ordersFilter.Count(),
                 recordsFiltered = ordersFilter.Count(),
                 data = data
-            }),"application/json");
+            }), "application/json");
         }
 
         public ActionResult LoadOrderProduct(int? id)
         {
             List<object> data = new List<object>();
             if (id == 0)
-                return Content(JsonConvert.SerializeObject(new {
+                return Content(JsonConvert.SerializeObject(new
+                {
                     sum_total = 0,
                     data = data
-                }),"application/json");
+                }), "application/json");
 
             var order = Repository.Order.FindById(id);
             if (order == null)
@@ -124,12 +130,14 @@ namespace WebBanHang.Areas.Admin.Controllers
                 }), "application/json");
             }
 
-            foreach(var oProduct in order.OrderDetails){
-                data.Add(new {
+            foreach (var oProduct in order.OrderDetails)
+            {
+                data.Add(new
+                {
                     detail_id = oProduct.DetailID,
                     image_url = (oProduct.Product.ImageProducts.Count > 0) ? oProduct.Product.ImageProducts.FirstOrDefault().ImagePath : ImageHelper.DefaultImage(),
                     product_name = oProduct.Product.ProductName,
-                    color = (oProduct.ColorID != null) ? "<span style=\"background-color: #"+oProduct.Color.HexCode+"\" class=\"label\">"+oProduct.Color.ColorName+"</span>" : "",
+                    color = (oProduct.ColorID != null) ? "<span style=\"background-color: #" + oProduct.Color.HexCode + "\" class=\"label\">" + oProduct.Color.ColorName + "</span>" : "",
                     price = oProduct.Price,
                     quantity = oProduct.Quantity,
                     total = oProduct.Total
@@ -147,7 +155,7 @@ namespace WebBanHang.Areas.Admin.Controllers
         {
             if (id == null) return new HttpNotFoundResult("ID not found");
             var order = Repository.Order.FindById(id);
-            if (order == null) return new HttpNotFoundResult("Order with id "+id+" does not exist in system");
+            if (order == null) return new HttpNotFoundResult("Order with id " + id + " does not exist in system");
             return View(order);
         }
 
@@ -187,17 +195,20 @@ namespace WebBanHang.Areas.Admin.Controllers
             dynamic result = new ExpandoObject();
             result.status = false;
             result.message = "";
-            if(id == null){
+            if (id == null)
+            {
                 result.message = "Thiếu mã đơn đặt hàng";
-                return Content(JsonConvert.SerializeObject(result),"application/json");
+                return Content(JsonConvert.SerializeObject(result), "application/json");
             }
-            if(orderStatus == null && shippingStatus == null){
+            if (orderStatus == null && shippingStatus == null)
+            {
                 result.message = "Phải có ít nhất 1 trong 2 tham số orderStatus và shippingStatus";
                 return Content(JsonConvert.SerializeObject(result), "application/json");
             }
 
             var order = Repository.Order.FindById(id);
-            if(order == null){
+            if (order == null)
+            {
                 result.message = "Đơn đặt hàng này không tồn tại trong hệ thống";
                 return Content(JsonConvert.SerializeObject(result), "application/json");
             }
@@ -242,7 +253,7 @@ namespace WebBanHang.Areas.Admin.Controllers
             if (id == null)
             {
                 result.message = "Thiếu mã đơn đặt hàng";
-                return Content(JsonConvert.SerializeObject(result),"application/json");
+                return Content(JsonConvert.SerializeObject(result), "application/json");
             }
             var order = Repository.Order.FindById(id);
             if (order == null)
@@ -266,7 +277,7 @@ namespace WebBanHang.Areas.Admin.Controllers
             if (orderDetail.DetailID == 0 || orderDetail.OrderID == 0)
             {
                 result.message = "Thiếu thông số";
-                return Content(JsonConvert.SerializeObject(result),"application/json");
+                return Content(JsonConvert.SerializeObject(result), "application/json");
             }
             var order = Repository.Order.FindById(orderDetail.OrderID);
             if (order == null)
@@ -274,13 +285,14 @@ namespace WebBanHang.Areas.Admin.Controllers
                 result.message = "Đơn đặt hàng không tồn tại";
                 return Content(JsonConvert.SerializeObject(result), "application/json");
             }
-            var oldDetail = order.OrderDetails.FirstOrDefault(o=>o.DetailID == orderDetail.DetailID);
-            if(oldDetail == null){
+            var oldDetail = order.OrderDetails.FirstOrDefault(o => o.DetailID == orderDetail.DetailID);
+            if (oldDetail == null)
+            {
                 result.message = "Sản phẩm này không tồn tại trong đơn đặt hàng";
                 return Content(JsonConvert.SerializeObject(result), "application/json");
             }
             order.OrderDetails.Remove(oldDetail);
-            var sum = order.OrderDetails.Sum(o=>o.Total);
+            var sum = order.OrderDetails.Sum(o => o.Total);
             order.TotalPrice = sum;
             Repository.Order.SaveChanges();
 
@@ -292,15 +304,16 @@ namespace WebBanHang.Areas.Admin.Controllers
 
         public ActionResult Delete(int? id)
         {
-            if(id == null){
+            if (id == null)
+            {
                 return HttpNotFound();
             }
             var order = Repository.Order.FindById(id);
-            if(order == null)
+            if (order == null)
                 return RedirectToAction("Index", "Order");
             Repository.Order.Delete(id);
             Repository.SaveChanges();
-            return RedirectToAction("Index","Order");
+            return RedirectToAction("Index", "Order");
         }
 
         private String getClassOrderStatus(int status)
@@ -311,17 +324,20 @@ namespace WebBanHang.Areas.Admin.Controllers
                 case 1:
                     statusColor = "warning";
                     break;
+
                 case 2:
                     statusColor = "info";
                     break;
+
                 case 3:
                     statusColor = "success";
                     break;
+
                 default:
                     statusColor = "danger";
                     break;
             }
             return "label-" + statusColor;
         }
-	}
+    }
 }

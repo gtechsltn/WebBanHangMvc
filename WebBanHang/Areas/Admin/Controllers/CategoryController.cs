@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using System.Text;
-using System.Web;
 using System.Web.Mvc;
 using WebBanHang.Models;
 using WebBanHang.ViewModels;
@@ -17,7 +15,7 @@ namespace WebBanHang.Areas.Admin.Controllers
         // GET: /Admin/Category/
         public ActionResult Index()
         {
-            var groups = Repository.GroupProduct.FetchAll().Where(g=>g.ParentGroupID == null);
+            var groups = Repository.GroupProduct.FetchAll().Where(g => g.ParentGroupID == null);
             ViewBag.Groups = groups;
             return View();
         }
@@ -25,7 +23,7 @@ namespace WebBanHang.Areas.Admin.Controllers
         public ActionResult Create()
         {
             var model = new AdminGroupProductViewModel();
-            ViewBag.Groups = Repository.GroupProduct.FetchAll().Where(g=>g.ParentGroupID == null);
+            ViewBag.Groups = Repository.GroupProduct.FetchAll().Where(g => g.ParentGroupID == null);
             return View(model);
         }
 
@@ -33,13 +31,14 @@ namespace WebBanHang.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(AdminGroupProductViewModel model)
         {
-            if(ModelState.IsValid){
+            if (ModelState.IsValid)
+            {
                 var group = Mapper.Map<GroupProduct>(model);
                 Repository.GroupProduct.Insert(group);
                 Repository.GroupProduct.SaveChanges();
                 if (group.GroupID != 0)
                 {
-                    return RedirectToAction("Index","Category");
+                    return RedirectToAction("Index", "Category");
                 }
             }
             ViewBag.Groups = Repository.GroupProduct.FetchAll().Where(g => g.ParentGroupID == null);
@@ -65,11 +64,12 @@ namespace WebBanHang.Areas.Admin.Controllers
             var search = Request.QueryString["search[value]"].ToString();
             var parentGroup = Request.QueryString["columns[2][search][value]"].ToString();
             var cates = Repository.GroupProduct.FetchAll().Where(c => c.GroupName.Contains(search));
-            if(!String.IsNullOrEmpty(parentGroup) && !parentGroup.Equals("all")){
+            if (!String.IsNullOrEmpty(parentGroup) && !parentGroup.Equals("all"))
+            {
                 int? groupID = (int.Parse(parentGroup) as int?);
-                cates = cates.Where(c=>c.ParentGroupID == groupID);
+                cates = cates.Where(c => c.ParentGroupID == groupID);
             }
-            cates = cates.OrderByDescending(c=>c.Priority);
+            cates = cates.OrderByDescending(c => c.Priority);
             var catePaging = cates.Skip(start).Take(length);
             List<object> data = new List<object>();
             foreach (var cate in catePaging)
@@ -101,7 +101,7 @@ namespace WebBanHang.Areas.Admin.Controllers
                 result.status = "error";
                 result.title = "Lỗi";
                 result.message = "Không có mã id nhóm";
-                return Content(JsonConvert.SerializeObject(result),"application/json");
+                return Content(JsonConvert.SerializeObject(result), "application/json");
             }
 
             var group = Repository.GroupProduct.FindById(id);
@@ -121,7 +121,8 @@ namespace WebBanHang.Areas.Admin.Controllers
             }
             Repository.GroupProduct.Delete(id);
             Repository.SaveChanges();
-            if(Repository.GroupProduct.FetchAll().Any(g=>g.GroupID == id)){
+            if (Repository.GroupProduct.FetchAll().Any(g => g.GroupID == id))
+            {
                 result.status = "error";
                 result.title = "Lỗi";
                 result.message = "Đã có lỗi xảy ra, không thể xóa được";
@@ -132,5 +133,5 @@ namespace WebBanHang.Areas.Admin.Controllers
             result.message = "Chúc mừng bạn đã xóa thành công";
             return Content(JsonConvert.SerializeObject(result), "application/json");
         }
-	}
+    }
 }

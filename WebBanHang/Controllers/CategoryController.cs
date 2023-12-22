@@ -1,24 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using PagedList;
 using System.Dynamic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using WebBanHang.Core;
-using WebBanHang.Utils;
 using WebBanHang.Core.RepositoryModel;
-using PagedList;
-using WebBanHang.Models;
+using WebBanHang.Utils;
 
 namespace WebBanHang.Controllers
 {
     public class CategoryController : BaseController
     {
-        GroupProductRepository groupRepository;
+        private GroupProductRepository groupRepository;
+
         public CategoryController()
         {
             groupRepository = Repository.Bind<GroupProductRepository>();
         }
+
         //
         // GET: /Category/
         public ActionResult Index(int? id)
@@ -33,7 +30,7 @@ namespace WebBanHang.Controllers
             var model = Repository.GroupProduct.FindById(id);
             if (model == null) return RedirectToAction("Error404", "Error");
             ViewData["ListColor"] = Repository.Color.FetchAll();
-            return View("Detail",model);
+            return View("Detail", model);
         }
 
         public ActionResult ListGroupProduct(int id)
@@ -56,5 +53,5 @@ namespace WebBanHang.Controllers
             ViewData["groupID"] = id;
             return PartialView(model.ToPagedList(pageNumber, pageSize));
         }
-	}
+    }
 }

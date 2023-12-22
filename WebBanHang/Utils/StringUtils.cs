@@ -16,7 +16,7 @@ namespace WebBanHang.Utils
 
         public static String ShortCity(String s)
         {
-            return s.Replace("Thành Phố","TP. ");
+            return s.Replace("Thành Phố", "TP. ");
         }
 
         public static String GenerateID()
@@ -96,6 +96,7 @@ namespace WebBanHang.Utils
                                     ddv = 0;
                                 }
                                 break;
+
                             case '1':
                                 if (n - j == 3) doc += cs[1] + " ";
                                 if (n - j == 2)
@@ -114,12 +115,14 @@ namespace WebBanHang.Utils
                                         doc += cs[1] + " ";
                                 }
                                 break;
+
                             case '5':
                                 if (i + j == len - 1)
                                     doc += "lăm ";
                                 else
                                     doc += cs[5] + " ";
                                 break;
+
                             default:
                                 doc += cs[(int)number[i + j] - 48] + " ";
                                 break;
@@ -132,7 +135,6 @@ namespace WebBanHang.Utils
                         }
                     }
                 }
-
 
                 //Doc don vi lon
                 if (len - i - n > 0)
