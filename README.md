@@ -34,6 +34,11 @@
 + HTML, CSS, JavaScript
 + jQuery and Bootstrap
 + AJAX, JSON and XML
++ TinyMCE
++ autoNumeric
++ dataTables
++ Font Awesome
++ Google Fonts
 + HTTPS and SSL
 
 # Tools
