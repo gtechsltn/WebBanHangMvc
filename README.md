@@ -37,8 +37,10 @@
 + HTTPS and SSL
 
 # Tools
++ Git for Windows
++ GitHub
 + CodeMaid
-+ 
++ Google Drive
 
 # How to run source code
 + Download source code from GitHub link https://github.com/gtechsltn/WebBanHangMvc/
