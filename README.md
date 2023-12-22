@@ -18,18 +18,27 @@
 + IIS 10
 
 # Technical Stack
++ .NET Framework 4.5
 + ASP.NET MVC
 + ASP.NET Web API
 + SQL Server (T-SQL)
 + Entity Framework
 + Stored Procedure
++ AutoMapper
++ Newtonsoft.Json
++ OWIN
++ PagedList.Mvc
++ Send e-Mail using Google Mail (Gmail)
++ IIS 10
 + AdminLTE
 + HTML, CSS, JavaScript
 + jQuery and Bootstrap
 + AJAX, JSON and XML
 + HTTPS and SSL
-+ Google Mail (đăng ký, đăng nhập, liên hệ, đặt hàng, thắc mắc, khiếu nại, bảo hành, thông báo, quảng cáo)
-+ Windows Server and IIS
+
+# Tools
++ CodeMaid
++ 
 
 # How to run source code
 + Download source code from GitHub link https://github.com/gtechsltn/WebBanHangMvc/
@@ -50,7 +59,7 @@
 # Deployment
 + VS 2019: Publish using **File System** method, for example **D:\WebBanHang\Publish**
 + Tạo Application Pool: WebBanHang (.NET CLR Version v4.0.30319, Integrated)
-+ Tạo Web Application: WebBanHang (HTTPS + SSL Certificate, port 443 + IIS Express Development Certificate) => https://localhost/
++ Tạo Web Application: WebBanHang (HTTPS + SSL Certificate + Port 443 + IIS Express Development Certificate) => https://localhost/
 
 # Testing
 + Google Chrome: Mở link https://localhost/
