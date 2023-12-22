@@ -1,4 +1,6 @@
-# Course Project (đồ án môn học) Programming and Web Development using the ASP.NET MVC
+# Course Project (đồ án môn học)
+
+Programming and Web Development using ASP.NET MVC
 
 + [Đồ án môn học Lập Trình Web ASP.Net MVC](https://github.com/hienlt0610/mvc-ban-hang)
 + [Lập trình dự án Website bán hàng ASP.NET MVC 4](https://tedu.com.vn/khoa-hoc/lap-trinh-du-an-website-ban-hang-aspnet-mvc-4-1.html)
