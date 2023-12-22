@@ -51,15 +51,16 @@
 + Download source code from GitHub link https://github.com/gtechsltn/WebBanHangMvc/
 + Open SSMS: Run Database\script.sql to create database (DB) on localhost
   + Authentication Type: Windows Authentication
+  + DB Name: WebBanHangMvc
 + Open VS 2019
   + Open WebBanHang.sln
   + Open Web.config: change Connection String to point to the DB on localhost
 ```
-<configuration>
-    <connectionStrings>
-        <add name="WebBanHangMvcConnString" connectionString="Data Source=.;Initial Catalog=WebBanHangMvc;Integrated Security=true" />
-    </connectionStrings>
-</configuration>
+<connectionStrings>
+    <add name="DefaultConnection" connectionString="Data Source=.;Initial Catalog=WebBanHangMvc;Integrated Security=true" providerName="System.Data.SqlClient" />
+    <add name="ecommerceEntities" connectionString="metadata=res://*/Models.Ecommerce.csdl|res://*/Models.Ecommerce.ssdl|res://*/Models.Ecommerce.msl;provider=System.Data.SqlClient;provider connection string=&quot;Data Source=.;Initial Catalog=WebBanHangMvc;Integrated Security=true;multipleactiveresultsets=True;application name=EntityFramework&quot;" providerName="System.Data.EntityClient" />
+    <add name="testmodel" connectionString="metadata=res://*/Models.Model1.csdl|res://*/Models.Model1.ssdl|res://*/Models.Model1.msl;provider=System.Data.SqlClient;provider connection string=&quot;Data Source=.;Initial Catalog=WebBanHangMvc;Integrated Security=true;multipleactiveresultsets=True;application name=EntityFramework&quot;" providerName="System.Data.EntityClient" />
+  </connectionStrings>
 ```
   + Chạy debug: F5
 
